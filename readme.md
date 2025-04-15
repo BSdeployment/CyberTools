@@ -1,17 +1,35 @@
-🧪 Zip Bomb Analyzer – Python Tools with GUI
+# 🛡️ Ethical Hacking & Cybersecurity Toolkit
 
-This repository contains Python scripts and tools designed to analyze and test potential zip bombs — malicious ZIP archives that can crash or overload systems when extracted.
+This repository is a curated collection of tools and scripts for **ethical hacking**, **penetration testing**, and **network security research**.
 
-Features include:
+The focus is on **educational and responsible use** — providing hands-on examples of techniques used in offensive cybersecurity.
 
-📦 Detection of suspicious ZIP archive behavior
+---
 
-🔍 Analysis of compression ratios and nested files
+## 🔍 Features
 
-🖥️ Simple and intuitive GUI built with Tkinter
+- 📡 **Wi-Fi tools** – scanning, targeting, deauthentication, and more  
+- 💥 **Network attack scripts** – spoofing, basic DoS simulations, packet manipulation  
+- 🧬 **SQL Injection testers** – simulate injection attacks and detection  
+- 📦 **Zip bomb analysis** – test and explore compression-based vulnerabilities  
+- 🖥️ **GUI tools** – for easier testing and demonstration (Tkinter, etc.)  
+- ⚙️ Variety of tools for red-team style experimentation
 
-⚠️ Safeguards to prevent accidental extraction of dangerous files
+---
 
-Ideal for security research, educational purposes, or learning how compression-based attacks work.
+## 💻 Languages
 
-⚠️ Use responsibly! This project is for educational and testing purposes only.
+- 🐍 Primarily **Python**
+- 💠 Occasionally includes utilities in **C# (.NET)**
+
+---
+
+## ⚠️ Disclaimer
+
+> This project is intended for **ethical and educational use only**.  
+> Do **not** use any of these tools on networks or systems you do not own or have **explicit permission** to test.  
+> The author takes **no responsibility** for misuse of the code.
+
+---
+
+Feel free to fork, contribute, or use these tools as a base for your own research and learning!
