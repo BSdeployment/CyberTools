@@ -1,0 +1,20 @@
+title: Cyber Tools
+description: Cyber Research & Tools
+url: "https://bsdeployment.github.io"
+baseurl: "/CyberTools"
+
+theme: minimal-mistakes-jekyll
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+minimal_mistakes_skin: "dark"
+
+nav:
+  - title: "בית"
+    url: /
+  - title: "בלוג"
+    url: /blog/
+  - title: "אודות"
+    url: /about/
