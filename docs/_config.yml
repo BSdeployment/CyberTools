@@ -3,13 +3,17 @@ description: Cyber Research & Tools
 url: "https://bsdeployment.github.io"
 baseurl: "/CyberTools"
 
-theme: minimal-mistakes-jekyll
+
+remote_theme: "mmistakes/minimal-mistakes"
 
 plugins:
+  - jekyll-include-cache
   - jekyll-feed
   - jekyll-seo-tag
 
 minimal_mistakes_skin: "dark"
+
+
 
 nav:
   - title: "בית"
