@@ -1,7 +1,9 @@
 title: Cyber Tools
 description: Cyber Research & Tools
+baseurl: "/CyberTools"
 url: "https://bsdeployment.github.io"
-baseurl: "/CyberTools"החלף לכתובת שלך
+
+
 
 remote_theme: "mmistakes/minimal-mistakes"
 
