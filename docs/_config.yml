@@ -7,6 +7,10 @@ locale: "he"
 direction: rtl
 
 
+sass:
+  style: compressed
+
+
 remote_theme: "mmistakes/minimal-mistakes"
 
 plugins:
