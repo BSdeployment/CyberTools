@@ -1,39 +1,27 @@
-title: Cyber Tools
-description: Cyber Research & Tools
-url: "https://bsdeployment.github.io"
-baseurl: "/CyberTools"
-
-locale: "he"
-direction: rtl
-
-
-search: true
-search_full_content: true
-
-sass:
-  style: compressed
-
-
-collections:
-  pages:
-    output: true
-    permalink: /:path/
+title: "Ai Blog 🖥️"
+email: "your-email@example.com"
+description: "Personal blog about AI, technology, and more. by BSdeployment"
+url: "https://BSdeployment.github.io" # החלף לכתובת שלך
 
 remote_theme: "mmistakes/minimal-mistakes"
 
-plugins:
-  - jekyll-include-cache
-  - jekyll-feed
-  - jekyll-seo-tag
+minimal_mistakes_skin: "air"
 
-minimal_mistakes_skin: "default"
+navigation: main
 
+enable_copy_code_button: true
 
+# תצוגת ברירת מחדל לפוסטים
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      
 
-nav:
-  - title: "בית"
-    url: /
-  - title: "בלוג"
-    url: /blog/
-  - title: "אודות"
-    url: /about/
+search: true
+lunr:
+  search_within_pages: true
