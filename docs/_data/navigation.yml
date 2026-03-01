@@ -1,9 +1,7 @@
 main:
-  - title: "בית"
+  - title: "Home"
     url: /
-  - title: "בלוג"
-    url: /blog/
-  - title: "אודות"
+  - title: "Posts"
+    url: /posts/
+  - title: "About"
     url: /about/
-  - title: "חיפוש"
-    url: /search/
