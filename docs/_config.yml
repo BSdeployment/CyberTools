@@ -7,6 +7,9 @@ locale: "he"
 direction: rtl
 
 
+search: true
+search_full_content: true
+
 sass:
   style: compressed
 
