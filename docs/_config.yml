@@ -1,16 +1,21 @@
 title: Cyber Tools
 description: Cyber Research & Tools
-baseurl: "/CyberTools"
+baseurl: "/CyberTools" # שים לב: אם שם ה-Repo שלך הוא בדיוק CyberTools, זה תקין
 url: "https://bsdeployment.github.io"
 
-
+# --- פלאגינים (זה מה שהיה חסר) ---
+plugins:
+  - jekyll-include-cache
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
 
 remote_theme: "mmistakes/minimal-mistakes"
-
 minimal_mistakes_skin: "air"
 
 navigation: main
-
 enable_copy_code_button: true
 
 # תצוגת ברירת מחדל לפוסטים
@@ -22,7 +27,6 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      
 
 search: true
 lunr:
