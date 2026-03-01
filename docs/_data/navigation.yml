@@ -1,0 +1,7 @@
+main:
+  - title: "בית"
+    url: /
+  - title: "בלוג"
+    url: /blog/
+  - title: "אודות"
+    url: /about/
