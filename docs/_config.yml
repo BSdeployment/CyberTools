@@ -3,6 +3,9 @@ description: Cyber Research & Tools
 url: "https://bsdeployment.github.io"
 baseurl: "/CyberTools"
 
+locale: "he"
+direction: rtl
+
 
 remote_theme: "mmistakes/minimal-mistakes"
 
