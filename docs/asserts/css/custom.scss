@@ -1,1 +1,32 @@
 
+---
+---
+
+@import "minimal-mistakes";
+
+/* RTL Support */
+html {
+  direction: rtl;
+}
+
+body {
+  text-align: right;
+}
+
+.page__content {
+  text-align: right;
+}
+
+.archive__item-title {
+  text-align: right;
+}
+
+.nav__list {
+  text-align: right;
+}
+
+/* שיפור מודרני */
+.page__content {
+  font-size: 1.1rem;
+  line-height: 1.9;
+}
