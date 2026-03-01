@@ -21,7 +21,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
-minimal_mistakes_skin: "dark"
+minimal_mistakes_skin: "default"
 
 
 
