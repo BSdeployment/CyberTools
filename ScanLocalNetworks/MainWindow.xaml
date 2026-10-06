@@ -1,0 +1,270 @@
+<Window x:Class="NetworkScanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="סורק רשת מקומית"
+        Width="1200" Height="700" MinWidth="960" MinHeight="480"
+        FlowDirection="RightToLeft"
+        FontFamily="Segoe UI" FontSize="14"
+        Background="#F3F5F8"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+
+        <!-- כפתור ראשי (כחול) -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="BorderBrush" Value="#2563EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="22,9"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.88"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- כפתור משני (לבן עם מסגרת) -->
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Foreground" Value="#1F2937"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Padding" Value="14,8"/>
+        </Style>
+
+        <!-- תא טקסט שניתן לסימון והעתקה (קריאה בלבד) -->
+        <Style x:Key="CellText" TargetType="TextBox">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FlowDirection" Value="LeftToRight"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Cursor" Value="IBeam"/>
+            <Setter Property="SelectionBrush" Value="#2563EB"/>
+        </Style>
+
+        <!-- צבעי בחירה של שורה -->
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#DBEAFE"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#E5EEFB"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== כותרת ובקרות סריקה ===== -->
+        <Border Grid.Row="0" Background="White" CornerRadius="12" Padding="18" BorderBrush="#E2E8F0" BorderThickness="1">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>
+                        by bs dotnet לקוד המקור - 
+                         <Hyperlink NavigateUri="https://github.com/BSdeployment/CyberTools/tree/main/ScanLocalNetworks" RequestNavigate="Hyperlink_RequestNavigate">
+        כאן
+    </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+               
+                <TextBlock Text="סורק רשת מקומית" FontSize="22" FontWeight="Bold" Foreground="#0F172A"/>
+                <TextBlock Text="לחץ על ״סרוק״ כדי לראות את כל המכשירים המחוברים כעת לרשת שלך"
+                           Foreground="#64748B" Margin="0,2,0,14"/>
+
+                <!-- שים לב: בחלון RTL הכיוונים בפריסה מתהפכים, לכן Left = צד ימין בפועל -->
+                <DockPanel LastChildFill="False">
+                    <TextBlock DockPanel.Dock="Left" Text="כרטיס רשת:" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="AdapterBox" DockPanel.Dock="Left" MinWidth="420" Margin="0,0,10,0"
+                              VerticalContentAlignment="Center" Padding="8,6" FlowDirection="LeftToRight"/>
+                    <Button x:Name="RefreshButton" DockPanel.Dock="Left" Content="↻" ToolTip="רענן רשימת כרטיסי רשת"
+                            Style="{StaticResource SecondaryButton}" Padding="10,6" Click="RefreshAdapters_Click"/>
+                    <CheckBox x:Name="DeepScan" DockPanel.Dock="Left" Margin="0,0,18,0" VerticalAlignment="Center"
+                              Content="סריקה מעמיקה (איטית יותר, מוצאת מכשירים ישנים)"/>
+
+                    <Button x:Name="ScanButton" DockPanel.Dock="Right" Content="🔍  סרוק"
+                            Style="{StaticResource PrimaryButton}" FontSize="16" Click="ScanButton_Click"/>
+                    <Button x:Name="StopButton" DockPanel.Dock="Right" Content="עצור" IsEnabled="False"
+                            Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" Click="StopButton_Click"/>
+                </DockPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- ===== סרגל כלים ===== -->
+        <DockPanel Grid.Row="1" Margin="2,14,2,8" LastChildFill="False">
+            <TextBlock x:Name="CountText" DockPanel.Dock="Left" Text="0 מכשירים"
+                       FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" Foreground="#0F172A"/>
+            <Button DockPanel.Dock="Right" Content="עדכן מאגר יצרנים" Style="{StaticResource SecondaryButton}"
+                    Click="UpdateVendors_Click" x:Name="UpdateVendorsButton"/>
+            <Button DockPanel.Dock="Right" Content="ייצא ל-CSV" Style="{StaticResource SecondaryButton}"
+                    Margin="0,0,8,0" Click="ExportCsv_Click"/>
+            <Button DockPanel.Dock="Right" Content="העתק הכל" Style="{StaticResource SecondaryButton}"
+                    Margin="0,0,8,0" Click="CopyAll_Click"/>
+            <Button DockPanel.Dock="Right" Content="העתק שורות נבחרות" Style="{StaticResource SecondaryButton}"
+                    Margin="0,0,8,0" Click="CopySelected_Click"/>
+        </DockPanel>
+
+        <!-- ===== טבלת המכשירים ===== -->
+        <Border Grid.Row="2" Background="White" CornerRadius="12" BorderBrush="#E2E8F0" BorderThickness="1" Padding="4">
+            <DataGrid x:Name="DevicesGrid"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserResizeRows="False"
+                      SelectionMode="Extended"
+                      SelectionUnit="FullRow"
+                      ClipboardCopyMode="IncludeHeader"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="Horizontal"
+                      HorizontalGridLinesBrush="#EEF2F7"
+                      BorderThickness="0"
+                      Background="White"
+                      RowBackground="White"
+                      AlternatingRowBackground="#F8FAFC"
+                      RowHeight="40"
+                      EnableRowVirtualization="True">
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="העתק שורות נבחרות" Click="CopySelected_Click"/>
+                        <MenuItem Header="העתק הכל" Click="CopyAll_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#F1F5F9"/>
+                        <Setter Property="Foreground" Value="#334155"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="10,10"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="BorderBrush" Value="#E2E8F0"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="0"/>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.Columns>
+
+                    <DataGridTemplateColumn Header="כתובת IP" Width="150"
+                                            SortMemberPath="IpSort"
+                                            ClipboardContentBinding="{Binding IpAddress}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding IpAddress, Mode=OneWay}" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="כתובת MAC" Width="170"
+                                            SortMemberPath="MacAddress"
+                                            ClipboardContentBinding="{Binding MacAddress}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding MacAddress, Mode=OneWay}" FontFamily="Consolas"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="יצרן" Width="*" MinWidth="200"
+                                            SortMemberPath="Vendor"
+                                            ClipboardContentBinding="{Binding Vendor}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding Vendor, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="שם מכשיר" Width="*" MinWidth="180"
+                                            SortMemberPath="HostName"
+                                            ClipboardContentBinding="{Binding HostName}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding HostName, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="תפקיד" Width="130"
+                                            SortMemberPath="Role"
+                                            ClipboardContentBinding="{Binding Role}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding Role, Mode=OneWay}" FlowDirection="RightToLeft"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="זמן תגובה" Width="100"
+                                            ClipboardContentBinding="{Binding PingText}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding PingText, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="מערכת הפעלה (הערכה)" Width="250"
+                                            ClipboardContentBinding="{Binding OsGuess}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding OsGuess, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="זיהוי" Width="190"
+                                            ClipboardContentBinding="{Binding Status}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Style="{StaticResource CellText}" Text="{Binding Status, Mode=OneWay}" FlowDirection="RightToLeft"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- ===== שורת סטטוס ===== -->
+        <Grid Grid.Row="3" Margin="2,10,2,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="260"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="StatusText" Grid.Column="0" Text="מוכן לסריקה" Foreground="#475569"
+                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            <ProgressBar x:Name="ScanProgressBar" Grid.Column="1" Height="8" Minimum="0" Maximum="100" Value="0"
+                         Foreground="#2563EB" Background="#E2E8F0" BorderThickness="0"/>
+        </Grid>
+    </Grid>
+</Window>
