@@ -4,7 +4,7 @@
 
 אפליקציית Windows קלה שמגלה את כל המכשירים המחוברים כעת לרשת המקומית ומציגה כתובת IP, כתובת MAC, יצרן, שם מכשיר ועוד — בטבלה שכל הטקסט בה ניתן לסימון והעתקה.
 
-[English](README.md)
+<img src="https://github.com/BSdeployment/CyberTools/blob/main/ScanLocalNetworks/img.png?raw=true" width=800/>
 
 <!-- להוסיף צילום מסך: ![Screenshot](docs/screenshot.png) -->
 
